@@ -1,0 +1,19 @@
+<resources>
+  <string name="app_name">MM Chalenge</string>
+  <string name="quote_calculator">Quote Calculator</string>
+  <string name="calculate_quote">Calculate Quote</string>
+  <string name="moneyme">MoneyMe</string>
+  <string name="i_m_a_new_user">I\'m a new user</string>
+  <string name="start_application">Start Application</string>
+  <string name="i_already_have_an_account">I already have an account</string>
+  <string name="members_login">Members Login</string>
+  <string name="your_quote">Your Quote</string>
+  <string name="apply_now">Apply Now</string>
+  <string name="your_information">Your Information</string>
+  <string name="name">Name</string>
+  <string name="mobile">Mobile</string>
+  <string name="financial_amount">Financial amount</string>
+  <string name="financial_detail">Financial Detail</string>
+  <string name="repayments_from">Repayments from</string>
+  <string name="edit">Edit</string>
+</resources>
