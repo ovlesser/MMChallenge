@@ -19,7 +19,7 @@ class MySeekBar : SeekBar {
     override fun onDraw(c: Canvas) {
         super.onDraw(c)
         val thumbX = (this.progress.toDouble() / this.max * this.width.toDouble()).toInt()
-        val thumbY = this.height.toFloat()
+        val thumbY = this.height.toFloat() - 100
 
         val paint = Paint()
         paint.color = Color.BLACK
