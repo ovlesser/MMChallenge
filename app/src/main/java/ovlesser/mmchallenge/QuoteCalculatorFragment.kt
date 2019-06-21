@@ -14,6 +14,7 @@ import kotlinx.android.synthetic.main.fragment_quote_calculator.*
 import ovlesser.mmchallenge.databinding.DialogLoginBinding
 import ovlesser.mmchallenge.databinding.FragmentQuoteCalculatorBinding
 
+
 class QuoteCalculatorFragment: Fragment() {
     private lateinit var detailViewModel: DetailViewModel
     private lateinit var dialog: AlertDialog
@@ -26,7 +27,7 @@ class QuoteCalculatorFragment: Fragment() {
 
     lateinit var dataBinding: FragmentQuoteCalculatorBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
+        // Inflate the layout for this fragment and create data binding
         dataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_quote_calculator, container, false)
         dataBinding.viewModel = detailViewModel
         return dataBinding.root
@@ -35,29 +36,10 @@ class QuoteCalculatorFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bt_calculate_quote.setOnClickListener { showLoginDialog() }
-        seekBar_money.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-            }
-        })
-        seekBar_time.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-            }
-        })
     }
 
-    fun showLoginDialog() {
+    private fun showLoginDialog() {
+        // data binding
         val dataBinding: DialogLoginBinding = DataBindingUtil.inflate(layoutInflater, R.layout.dialog_login, null, false)
         dataBinding.fragment = this
         dialog = AlertDialog.Builder(context!!)
@@ -88,6 +70,7 @@ class QuoteCalculatorFragment: Fragment() {
     }
 
     private fun loadYourQuoteFragment( userViewModel: UserViewModel) {
+        // init user view model based on user info
         val yourQuoteFragment = YourQuoteFragment.newInstance(detailViewModel, userViewModel)
         activity?.run {
             supportFragmentManager.beginTransaction()
@@ -98,6 +81,7 @@ class QuoteCalculatorFragment: Fragment() {
         }
 
     }
+
     companion object {
         private const val ARG_VIEW_MODEL = "view-model"
 

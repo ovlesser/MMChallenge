@@ -27,7 +27,7 @@ class YourQuoteFragment: Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
+        // Inflate the layout for this fragment and create data binding
         dataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_your_quote, container, false)
         dataBinding.detailViewModel = detailViewModel
         dataBinding.userViewModel = userViewModel
@@ -37,7 +37,6 @@ class YourQuoteFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        bt_info_edit.setOnClickListener {  }
         bt_detail_edit.setOnClickListener {
             val fragment = QuoteCalculatorFragment.newInstance(detailViewModel)
             activity?.run {
@@ -58,6 +57,7 @@ class YourQuoteFragment: Fragment() {
         }
     }
 
+    //update the status of the personal info section
     fun updateInfo() {
         if (editMode) {
             userViewModel.update()

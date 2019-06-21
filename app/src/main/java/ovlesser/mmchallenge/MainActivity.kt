@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
 
 class MainActivity : AppCompatActivity() {
+    // view model to save financial info
     val applicationViewModel = DetailViewModel()
     val quoteCalculatorFragment = QuoteCalculatorFragment.newInstance( applicationViewModel)
 
