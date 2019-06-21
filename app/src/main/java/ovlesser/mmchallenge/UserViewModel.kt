@@ -7,7 +7,17 @@ import kotlinx.android.parcel.Parcelize
 import java.util.*
 
 @Parcelize
-class UserViewModel(val user: User) : Parcelable{
+class UserViewModel(val user: User) : Parcelable, BaseObservable() {
+    private var _editMode : Boolean = false
+    var editMode : Boolean
+        @Bindable
+        get() {
+            return _editMode
+        }
+        set(value) {
+            _editMode = value
+            notifyPropertyChanged(BR._all)
+        }
 
     //new user registration
     fun register() : Boolean {

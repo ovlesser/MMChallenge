@@ -11,9 +11,6 @@
     <variable
         name="userViewModel"
         type="ovlesser.mmchallenge.UserViewModel"/>
-    <variable
-        name="fragment"
-        type="ovlesser.mmchallenge.YourQuoteFragment"/>
   </data>
   <ScrollView
     android:layout_width="match_parent"
@@ -78,9 +75,9 @@
             android:layout_height="wrap_content"
             android:padding="8dp"
             android:background="@drawable/button"
-            android:text="@string/edit"
+            android:text="@{userViewModel.editMode ? @string/save : @string/edit}"
             android:textAllCaps="false"
-            android:onClick="@{() -> fragment.updateInfo()}"
+            android:onClick="@{() -> userViewModel.setEditMode(!userViewModel.editMode)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/your_info"
@@ -112,7 +109,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@={userViewModel.user.name}"
-            android:enabled="false"
+            android:enabled="@{userViewModel.editMode}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tv_name"
@@ -144,7 +141,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@={userViewModel.user.mobile}"
-            android:enabled="false"
+            android:enabled="@{userViewModel.editMode}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tv_mobile"
@@ -176,7 +173,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@={userViewModel.user.email}"
-            android:enabled="false"
+            android:enabled="@{userViewModel.editMode}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tv_email"
