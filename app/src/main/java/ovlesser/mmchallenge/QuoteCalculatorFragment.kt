@@ -5,15 +5,14 @@ import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import kotlinx.android.synthetic.main.fragment_quote_calculator.*
-import kotlinx.android.synthetic.main.fragment_your_quote.*
-import ovlesser.mmchalenge.R
-import ovlesser.mmchalenge.databinding.DialogLoginBinding
-import ovlesser.mmchalenge.databinding.FragmentQuoteCalculatorBinding
+import ovlesser.mmchallenge.databinding.DialogLoginBinding
+import ovlesser.mmchallenge.databinding.FragmentQuoteCalculatorBinding
 
 class QuoteCalculatorFragment: Fragment() {
     private lateinit var detailViewModel: DetailViewModel
@@ -25,9 +24,10 @@ class QuoteCalculatorFragment: Fragment() {
             ?.let { it as? DetailViewModel } ?: return
     }
 
+    lateinit var dataBinding: FragmentQuoteCalculatorBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        val dataBinding: FragmentQuoteCalculatorBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_quote_calculator, container, false)
+        dataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_quote_calculator, container, false)
         dataBinding.viewModel = detailViewModel
         return dataBinding.root
     }
@@ -35,6 +35,26 @@ class QuoteCalculatorFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bt_calculate_quote.setOnClickListener { showLoginDialog() }
+        seekBar_money.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+            }
+        })
+        seekBar_time.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+            }
+        })
     }
 
     fun showLoginDialog() {
@@ -50,17 +70,24 @@ class QuoteCalculatorFragment: Fragment() {
 
     fun newUser() {
         dialog.dismiss()
+        //TODO: mocking user
         val user = User(name="John Doe", mobile = "04778095252", email = "johndow@test.com")
-        loadYourQuoteFragment( user)
+        val userViewModel = UserViewModel(user)
+        if (userViewModel.register()) {
+            loadYourQuoteFragment(userViewModel)
+        }
     }
     fun login() {
         dialog.dismiss()
+        //TODO: mocking user
         val user = User(name="John Doe", mobile = "04778095252", email = "johndow@test.com")
-        loadYourQuoteFragment( user)
+        val userViewModel = UserViewModel(user)
+        if (userViewModel.login()) {
+            loadYourQuoteFragment(userViewModel)
+        }
     }
 
-    private fun loadYourQuoteFragment( user: User) {
-        val userViewModel = UserViewModel(user)
+    private fun loadYourQuoteFragment( userViewModel: UserViewModel) {
         val yourQuoteFragment = YourQuoteFragment.newInstance(detailViewModel, userViewModel)
         activity?.run {
             supportFragmentManager.beginTransaction()

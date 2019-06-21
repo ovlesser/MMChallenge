@@ -12,7 +12,8 @@
   </data>
   <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/holo_blue_dark">
 
   <TextView
       android:id="@+id/title"
@@ -49,7 +50,10 @@
         android:id="@+id/bt_new_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:background="@drawable/button"
         android:text="@string/start_application"
+        android:textAllCaps="false"
         android:onClick="@{() -> fragment.newUser()}"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -81,7 +85,10 @@
         android:id="@+id/bt_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:background="@drawable/button"
         android:text="@string/members_login"
+        android:textAllCaps="false"
         android:onClick="@{() -> fragment.login()}"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -3,7 +3,6 @@ package ovlesser.mmchallenge
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
-import ovlesser.mmchalenge.R
 
 class MainActivity : AppCompatActivity() {
     val applicationViewModel = DetailViewModel()

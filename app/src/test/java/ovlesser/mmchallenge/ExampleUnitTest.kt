@@ -1,4 +1,4 @@
-package ovlesser.mmchalenge
+package ovlesser.mmchallenge
 
 import org.junit.Test
 

@@ -10,12 +10,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import kotlinx.android.synthetic.main.fragment_your_quote.*
-import ovlesser.mmchalenge.R
-import ovlesser.mmchalenge.databinding.FragmentYourQuoteBinding
+import ovlesser.mmchallenge.databinding.FragmentYourQuoteBinding
 
 class YourQuoteFragment: Fragment() {
     private lateinit var detailViewModel: DetailViewModel
     private lateinit var userViewModel: UserViewModel
+    private lateinit var dataBinding: FragmentYourQuoteBinding
+    private var editMode = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,16 +28,26 @@ class YourQuoteFragment: Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        val dataBinding: FragmentYourQuoteBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_your_quote, container, false)
+        dataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_your_quote, container, false)
         dataBinding.detailViewModel = detailViewModel
         dataBinding.userViewModel = userViewModel
+        dataBinding.fragment = this
         return dataBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bt_info_edit.setOnClickListener {  }
-        bt_detail_edit.setOnClickListener { activity?.onBackPressed() }
+        bt_detail_edit.setOnClickListener {
+            val fragment = QuoteCalculatorFragment.newInstance(detailViewModel)
+            activity?.run {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.main_content, fragment)
+                    .disallowAddToBackStack()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .commit()
+            }
+        }
         bt_apply.setOnClickListener {
             AlertDialog.Builder(context!!)
                 .setMessage("Your Application is Successful.")
@@ -45,6 +56,17 @@ class YourQuoteFragment: Fragment() {
                 .apply { setCancelable(false)}
                 .show()
         }
+    }
+
+    fun updateInfo() {
+        if (editMode) {
+            userViewModel.update()
+        }
+        editMode = !editMode
+        dataBinding.btInfoEdit.text = if (editMode) resources.getString(R.string.save) else resources.getString(R.string.edit)
+        dataBinding.editName.isEnabled = editMode
+        dataBinding.editMobile.isEnabled = editMode
+        dataBinding.editEmail.isEnabled = editMode
     }
 
     companion object {

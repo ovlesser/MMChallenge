@@ -1,5 +1,5 @@
 <resources>
-  <string name="app_name">MM Chalenge</string>
+  <string name="app_name">MM Challenge</string>
   <string name="quote_calculator">Quote Calculator</string>
   <string name="calculate_quote">Calculate Quote</string>
   <string name="moneyme">MoneyMe</string>
@@ -16,4 +16,5 @@
   <string name="financial_detail">Financial Detail</string>
   <string name="repayments_from">Repayments from</string>
   <string name="edit">Edit</string>
+  <string name="save">Save</string>
 </resources>
