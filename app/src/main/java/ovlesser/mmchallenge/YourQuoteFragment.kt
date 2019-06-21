@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.databinding.Bindable
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -16,7 +17,6 @@ class YourQuoteFragment: Fragment() {
     private lateinit var detailViewModel: DetailViewModel
     private lateinit var userViewModel: UserViewModel
     private lateinit var dataBinding: FragmentYourQuoteBinding
-    private var editMode = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +31,6 @@ class YourQuoteFragment: Fragment() {
         dataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_your_quote, container, false)
         dataBinding.detailViewModel = detailViewModel
         dataBinding.userViewModel = userViewModel
-        dataBinding.fragment = this
         return dataBinding.root
     }
 
@@ -55,18 +54,6 @@ class YourQuoteFragment: Fragment() {
                 .apply { setCancelable(false)}
                 .show()
         }
-    }
-
-    //update the status of the personal info section
-    fun updateInfo() {
-        if (editMode) {
-            userViewModel.update()
-        }
-        editMode = !editMode
-        dataBinding.btInfoEdit.text = if (editMode) resources.getString(R.string.save) else resources.getString(R.string.edit)
-        dataBinding.editName.isEnabled = editMode
-        dataBinding.editMobile.isEnabled = editMode
-        dataBinding.editEmail.isEnabled = editMode
     }
 
     companion object {
