@@ -84,11 +84,15 @@ class QuoteCalculatorFragment: Fragment() {
 
     companion object {
         private const val ARG_VIEW_MODEL = "view-model"
+        private lateinit var fragment: Fragment
 
         @JvmStatic
-        fun newInstance(viewModel: DetailViewModel) = QuoteCalculatorFragment().apply {
-            arguments = Bundle().apply {
-                putParcelable(ARG_VIEW_MODEL, viewModel)
+        fun newInstance(viewModel: DetailViewModel) : Fragment{
+            fragment = if (!::fragment.isInitialized) QuoteCalculatorFragment() else fragment
+            return fragment.apply {
+                arguments = Bundle().apply {
+                    putParcelable(ARG_VIEW_MODEL, viewModel)
+                }
             }
         }
     }

@@ -59,12 +59,16 @@ class YourQuoteFragment: Fragment() {
     companion object {
         private const val ARG_DETAIL_VIEW_MODEL = "detail_view-model"
         private const val ARG_USER_VIEW_MODEL = "user_view-model"
+        private lateinit var fragment: Fragment
 
         @JvmStatic
-        fun newInstance(detailViewModel: DetailViewModel, userViewModel: UserViewModel) = YourQuoteFragment().apply {
-            arguments = Bundle().apply {
-                putParcelable(ARG_DETAIL_VIEW_MODEL, detailViewModel)
-                putParcelable(ARG_USER_VIEW_MODEL, userViewModel)
+        fun newInstance(detailViewModel: DetailViewModel, userViewModel: UserViewModel) : Fragment{
+            fragment = if (!::fragment.isInitialized) YourQuoteFragment() else fragment
+            return fragment.apply {
+                arguments = Bundle().apply {
+                    putParcelable(ARG_DETAIL_VIEW_MODEL, detailViewModel)
+                    putParcelable(ARG_USER_VIEW_MODEL, userViewModel)
+                }
             }
         }
     }
