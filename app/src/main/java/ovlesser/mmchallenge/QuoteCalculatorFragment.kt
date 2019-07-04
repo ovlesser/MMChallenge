@@ -1,18 +1,19 @@
 package ovlesser.mmchallenge
 
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SeekBar
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.fragment_quote_calculator.*
 import ovlesser.mmchallenge.databinding.DialogLoginBinding
 import ovlesser.mmchallenge.databinding.FragmentQuoteCalculatorBinding
+import java.util.*
+import kotlin.concurrent.schedule
 
 
 class QuoteCalculatorFragment: Fragment() {
@@ -21,21 +22,32 @@ class QuoteCalculatorFragment: Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        detailViewModel = arguments?.getParcelable<Parcelable>(ARG_VIEW_MODEL)
-            ?.let { it as? DetailViewModel } ?: return
+        detailViewModel = activity?.run {
+            ViewModelProviders.of(this).get(DetailViewModel::class.java)
+        } ?: throw Exception("Invalid Activity")
     }
 
     lateinit var dataBinding: FragmentQuoteCalculatorBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment and create data binding
         dataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_quote_calculator, container, false)
-        dataBinding.viewModel = detailViewModel
+        dataBinding.lifecycleOwner = activity
         return dataBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bt_calculate_quote.setOnClickListener { showLoginDialog() }
+        dataBinding.viewModel = detailViewModel
+
+// updating ViewModel periodically example
+        Timer().schedule(1000, 1000) {
+            (dataBinding.viewModel as DetailViewModel).run {
+                amount.postValue( Random().nextInt(13000) + 2000)
+                month.postValue( Random().nextInt(33) + 3)
+                pmt.postValue( pmt())
+            }
+        }
     }
 
     private fun showLoginDialog() {
@@ -71,7 +83,7 @@ class QuoteCalculatorFragment: Fragment() {
 
     private fun loadYourQuoteFragment( userViewModel: UserViewModel) {
         // init user view model based on user info
-        val yourQuoteFragment = YourQuoteFragment.newInstance(detailViewModel, userViewModel)
+        val yourQuoteFragment = YourQuoteFragment.newInstance(userViewModel)
         activity?.run {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.main_content, yourQuoteFragment)
@@ -83,17 +95,12 @@ class QuoteCalculatorFragment: Fragment() {
     }
 
     companion object {
-        private const val ARG_VIEW_MODEL = "view-model"
         private lateinit var fragment: Fragment
 
         @JvmStatic
-        fun newInstance(viewModel: DetailViewModel) : Fragment{
+        fun newInstance() : Fragment{
             fragment = if (!::fragment.isInitialized) QuoteCalculatorFragment() else fragment
-            return fragment.apply {
-                arguments = Bundle().apply {
-                    putParcelable(ARG_VIEW_MODEL, viewModel)
-                }
-            }
+            return fragment
         }
     }
 }

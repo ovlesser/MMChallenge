@@ -4,8 +4,8 @@ import android.os.Parcelable
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import kotlinx.android.parcel.Parcelize
-import java.util.*
 
+// Observable example
 @Parcelize
 class UserViewModel(val user: User) : Parcelable, BaseObservable() {
     private var _editMode : Boolean = false
