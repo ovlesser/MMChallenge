@@ -7,7 +7,7 @@
   <data>
     <variable
         name="detailViewModel"
-        type="ovlesser.mmchallenge.DetailViewModel"/>
+        type="ovlesser.mmchallenge.viewModel.DetailViewModel"/>
     <variable
         name="userViewModel"
         type="ovlesser.mmchallenge.UserViewModel"/>

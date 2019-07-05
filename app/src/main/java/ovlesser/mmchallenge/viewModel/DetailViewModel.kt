@@ -1,4 +1,4 @@
-package ovlesser.mmchallenge
+package ovlesser.mmchallenge.viewModel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

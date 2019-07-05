@@ -1,4 +1,4 @@
-package ovlesser.mmchallenge
+package ovlesser.mmchallenge.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,10 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.fragment_quote_calculator.*
+import ovlesser.mmchallenge.*
 import ovlesser.mmchallenge.databinding.DialogLoginBinding
 import ovlesser.mmchallenge.databinding.FragmentQuoteCalculatorBinding
-import java.util.*
-import kotlin.concurrent.schedule
+import ovlesser.mmchallenge.di.DaggerMyApplicationComponent
+import ovlesser.mmchallenge.model.User
+import ovlesser.mmchallenge.viewModel.DetailViewModel
+import javax.inject.Inject
 
 
 class QuoteCalculatorFragment: Fragment() {
@@ -30,7 +33,8 @@ class QuoteCalculatorFragment: Fragment() {
     lateinit var dataBinding: FragmentQuoteCalculatorBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment and create data binding
-        dataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_quote_calculator, container, false)
+        dataBinding = DataBindingUtil.inflate(inflater,
+            R.layout.fragment_quote_calculator, container, false)
         dataBinding.lifecycleOwner = activity
         return dataBinding.root
     }
@@ -41,18 +45,19 @@ class QuoteCalculatorFragment: Fragment() {
         dataBinding.viewModel = detailViewModel
 
 // updating ViewModel periodically example
-        Timer().schedule(1000, 1000) {
-            (dataBinding.viewModel as DetailViewModel).run {
-                amount.postValue( Random().nextInt(13000) + 2000)
-                month.postValue( Random().nextInt(33) + 3)
-                pmt.postValue( pmt())
-            }
-        }
+//        Timer().schedule(1000, 1000) {
+//            (dataBinding.viewModel as DetailViewModel).run {
+//                amount.postValue( Random().nextInt(13000) + 2000)
+//                month.postValue( Random().nextInt(33) + 3)
+//                pmt.postValue( pmt())
+//            }
+//        }
     }
 
     private fun showLoginDialog() {
         // data binding
-        val dataBinding: DialogLoginBinding = DataBindingUtil.inflate(layoutInflater, R.layout.dialog_login, null, false)
+        val dataBinding: DialogLoginBinding = DataBindingUtil.inflate(layoutInflater,
+            R.layout.dialog_login, null, false)
         dataBinding.fragment = this
         dialog = AlertDialog.Builder(context!!)
             .setView(dataBinding.root)
@@ -62,10 +67,12 @@ class QuoteCalculatorFragment: Fragment() {
     }
 
 
+    @Inject
+    lateinit var user : User
+
     fun newUser() {
         dialog.dismiss()
-        //TODO: mocking user
-        val user = User(name="John Doe", mobile = "04778095252", email = "johndow@test.com")
+        user = DaggerMyApplicationComponent.create().inject()
         val userViewModel = UserViewModel(user)
         if (userViewModel.register()) {
             loadYourQuoteFragment(userViewModel)
@@ -74,7 +81,11 @@ class QuoteCalculatorFragment: Fragment() {
     fun login() {
         dialog.dismiss()
         //TODO: mocking user
-        val user = User(name="John Doe", mobile = "04778095252", email = "johndow@test.com")
+        val user = User(
+            name = "John Doe",
+            mobile = "04778095252",
+            email = "johndow@test.com"
+        )
         val userViewModel = UserViewModel(user)
         if (userViewModel.login()) {
             loadYourQuoteFragment(userViewModel)
@@ -83,7 +94,8 @@ class QuoteCalculatorFragment: Fragment() {
 
     private fun loadYourQuoteFragment( userViewModel: UserViewModel) {
         // init user view model based on user info
-        val yourQuoteFragment = YourQuoteFragment.newInstance(userViewModel)
+        val yourQuoteFragment =
+            YourQuoteFragment.newInstance(userViewModel)
         activity?.run {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.main_content, yourQuoteFragment)
@@ -99,7 +111,7 @@ class QuoteCalculatorFragment: Fragment() {
 
         @JvmStatic
         fun newInstance() : Fragment{
-            fragment = if (!::fragment.isInitialized) QuoteCalculatorFragment() else fragment
+            fragment = if (!Companion::fragment.isInitialized) QuoteCalculatorFragment() else fragment
             return fragment
         }
     }

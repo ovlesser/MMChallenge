@@ -1,4 +1,4 @@
-package ovlesser.mmchallenge
+package ovlesser.mmchallenge.component
 
 import android.content.Context
 import android.graphics.Canvas

@@ -4,6 +4,7 @@ import android.os.Parcelable
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import kotlinx.android.parcel.Parcelize
+import ovlesser.mmchallenge.model.User
 
 // Observable example
 @Parcelize

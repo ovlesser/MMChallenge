@@ -1,4 +1,4 @@
-package ovlesser.mmchallenge
+package ovlesser.mmchallenge.view
 
 import android.os.Bundle
 import android.os.Parcelable
@@ -11,7 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.fragment_your_quote.*
+import ovlesser.mmchallenge.R
+import ovlesser.mmchallenge.UserViewModel
 import ovlesser.mmchallenge.databinding.FragmentYourQuoteBinding
+import ovlesser.mmchallenge.viewModel.DetailViewModel
 
 class YourQuoteFragment: Fragment() {
     private lateinit var detailViewModel: DetailViewModel
@@ -29,7 +32,8 @@ class YourQuoteFragment: Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment and create data binding
-        dataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_your_quote, container, false)
+        dataBinding = DataBindingUtil.inflate(inflater,
+            R.layout.fragment_your_quote, container, false)
         dataBinding.lifecycleOwner = activity
         return dataBinding.root
     }
@@ -64,7 +68,7 @@ class YourQuoteFragment: Fragment() {
 
         @JvmStatic
         fun newInstance(userViewModel: UserViewModel) : Fragment{
-            fragment = if (!::fragment.isInitialized) YourQuoteFragment() else fragment
+            fragment = if (!Companion::fragment.isInitialized) YourQuoteFragment() else fragment
             return fragment.apply {
                 arguments = Bundle().apply {
                     putParcelable(ARG_USER_VIEW_MODEL, userViewModel)

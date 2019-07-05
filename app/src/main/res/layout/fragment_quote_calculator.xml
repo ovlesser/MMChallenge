@@ -7,7 +7,7 @@
   <data>
     <variable
         name="viewModel"
-        type="ovlesser.mmchallenge.DetailViewModel"/>
+        type="ovlesser.mmchallenge.viewModel.DetailViewModel"/>
   </data>
   <androidx.constraintlayout.widget.ConstraintLayout
     android:orientation="vertical"
@@ -26,7 +26,7 @@
         app:layout_constraintBottom_toTopOf="@id/seekBar_money"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <ovlesser.mmchallenge.MySeekBar
+    <ovlesser.mmchallenge.component.MySeekBar
         android:id="@+id/seekBar_money"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title"/>
 
-    <ovlesser.mmchallenge.MySeekBar
+    <ovlesser.mmchallenge.component.MySeekBar
         android:id="@+id/seekBar_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
